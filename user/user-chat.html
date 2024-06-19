@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Chat Page</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Include FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans flex">
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed left-0 top-0 h-full bg-blue-800 text-gray-100 w-64 overflow-y-auto z-50 p-4">
+        <h2 class="text-xl font-bold mb-4">Friends</h2>
+        <ul class="space-y-4">
+            <li class="cursor-pointer flex items-center p-2 rounded-lg hover:bg-blue-700 transition duration-300" onclick="selectFriend('Friend 1')">
+                <img src="https://via.placeholder.com/40" alt="Friend 1" class="w-10 h-10 rounded-full mr-3">
+                <span>Friend 1</span>
+            </li>
+            <li class="cursor-pointer flex items-center p-2 rounded-lg hover:bg-blue-700 transition duration-300" onclick="selectFriend('Friend 2')">
+                <img src="https://via.placeholder.com/40" alt="Friend 2" class="w-10 h-10 rounded-full mr-3">
+                <span>Friend 2</span>
+            </li>
+            <li class="cursor-pointer flex items-center p-2 rounded-lg hover:bg-blue-700 transition duration-300" onclick="selectFriend('Friend 3')">
+                <img src="https://via.placeholder.com/40" alt="Friend 3" class="w-10 h-10 rounded-full mr-3">
+                <span>Friend 3</span>
+            </li>
+            <!-- Add more friends as needed -->
+        </ul>
+    </div>
+
+    <!-- Main Chat Area -->
+    <div class="flex-1 ml-64 p-4">
+        <div class="max-w-4xl mx-auto bg-gray-200 shadow-lg rounded-lg overflow-hidden">
+            <div class="px-6 py-4 border-b flex justify-between items-center">
+                <h2 id="chatWith" class="text-2xl font-semibold text-gray-800">Chat with Friend</h2>
+                <input type="text" placeholder="Search..." class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+            <div id="chatMessages" class="p-6 h-96 overflow-y-scroll">
+                <!-- Messages will be appended here -->
+            </div>
+            <div class="p-4 border-t">
+                <form id="chatForm" class="flex space-x-2" onsubmit="handleSendMessage(event)">
+                    <input type="text" id="messageInput" placeholder="Type a message..." class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg transition duration-300">
+                        Send
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for handling chat input -->
+    <script>
+        let currentFriend = 'Friend';
+
+        function selectFriend(friend) {
+            currentFriend = friend;
+            document.getElementById('chatWith').textContent = `Chat with ${friend}`;
+            document.getElementById('chatMessages').innerHTML = ''; // Clear previous messages
+        }
+
+        function handleSendMessage(event) {
+            event.preventDefault();
+
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            if (message) {
+                const chatContainer = document.getElementById('chatMessages');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('flex', 'items-start', 'mt-4');
+                messageElement.innerHTML = `
+                    <img src="https://via.placeholder.com/40" alt="Your Avatar" class="w-10 h-10 rounded-full mr-3">
+                    <div>
+                        <h4 class="text-md font-semibold">You</h4>
+                        <p class="text-gray-600">${message}</p>
+                        <span class="text-sm text-gray-500">Just now</span>
+                    </div>
+                `;
+                chatContainer.appendChild(messageElement);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                messageInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>

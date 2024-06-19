@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Website</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Include FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- Sticky Navbar -->
+<nav class="bg-white shadow-lg p-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <span class="text-2xl font-bold text-blue-600">Football Website</span>
+        <input type="text" placeholder="Search..." class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="bg-hero-pattern bg-cover bg-center h-64 flex items-center justify-center text-white text-center">
+    <div class="bg-black bg-opacity-50 p-8 rounded-lg">
+        <h1 class="text-4xl font-bold">Welcome to the Ultimate Football Fan Site</h1>
+        <p class="mt-4">Stay updated with the latest news, matches, and events.</p>
+        <button class="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg shadow-lg text-white font-semibold">Join Us Now</button>
+    </div>
+</div>
+
+<!-- Main content -->
+<div class="max-w-7xl mx-auto mt-8 px-4 grid grid-cols-12 gap-4">
+
+    <!-- sidebar -->
+    <div class="col-span-3 bg-white shadow-lg p-4 space-y-4 rounded-lg">
+        <!-- <h2 class="text-lg font-semibold text-blue-600">Dashboard</h2> -->
+        <div class="space-y-4">
+            
+            <!-- Connected Friends-->
+            <div>
+                <h3 class="text-md font-semibold">Connected Friends</h3>
+                <div class="mb-2 flex items-center">
+                    <img src="https://via.placeholder.com/40" alt="Friend 1" class="w-10 h-10 rounded-full mr-2">
+                    <span>Friend 1</span>
+                </div>
+                <div class="mb-2 flex items-center">
+                    <img src="https://via.placeholder.com/40" alt="Friend 2" class="w-10 h-10 rounded-full mr-2">
+                    <span>Friend 2</span>
+                </div>
+            </div>
+            
+            <!-- Recent Matches -->
+            <div>
+                <h3 class="text-md font-semibold">Recent Matches</h3>
+                <div class="mb-2">
+                    <img src="https://via.placeholder.com/150" alt="Match 1" class="rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-gray-600">Team A vs Team B</p>
+                </div>
+                <div class="mb-2">
+                    <img src="https://via.placeholder.com/150" alt="Match 2" class="rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-gray-600">Team C vs Team D</p>
+                </div>
+            </div>
+            
+            <!-- Upcoming Events -->
+            <div>
+                <h3 class="text-md font-semibold">Upcoming Events</h3>
+                <div class="mb-2">
+                    <img src="https://via.placeholder.com/150" alt="Event 1" class="rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-gray-600">Event Name 1</p>
+                </div>
+                <div class="mb-2">
+                    <img src="https://via.placeholder.com/150" alt="Event 2" class="rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-gray-600">Event Name 2</p>
+                </div>
+            </div>
+
+            <!-- Favorite Teams -->
+            <div>
+                <h3 class="text-md font-semibold">Favorite Team</h3>
+                <div class="mb-2">
+                    <img src="https://via.placeholder.com/150" alt="Team 1" class="rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-gray-600">Team Name 1</p>
+                </div>
+                <h3 class="text-md font-semibold">Favorite Player</h3>
+                <div class="mb-2">
+                    <img src="https://via.placeholder.com/150" alt="Team 2" class="rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-gray-600">Ronaldo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area (6 columns wide) -->
+    <div class="col-span-6 bg-white shadow-lg p-4 rounded-lg">
+        <h2 class="text-lg font-semibold text-blue-600 mb-4">Latest Football News</h2>
+        
+        <!-- Demo post/news -->
+        <div class="mb-6">
+            <img src="https://via.placeholder.com/600x300" alt="Football News 1" class="mb-4 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+            <h3 class="text-xl font-semibold mb-2">Title of the News Post</h3>
+            <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero quis blandit condimentum.</p>
+        </div>
+
+        <div class="mb-6">
+            <img src="https://via.placeholder.com/600x300" alt="Football News 2" class="mb-4 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+            <h3 class="text-xl font-semibold mb-2">Another Title Here</h3>
+            <p class="text-gray-600">Sed euismod magna a lorem venenatis, vel bibendum purus finibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
+        </div>
+
+    </div>
+
+    <!-- Sidebar (Right Side) -->
+    <div class="col-span-3 bg-white shadow-lg p-4 rounded-lg">
+        <h2 class="text-lg font-semibold text-blue-600 mb-4"></h2>
+        <!-- Example friends list with follow/connect buttons -->
+        <!-- <div class="mb-2 flex items-center justify-between">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/40" alt="Friend 3" class="w-10 h-10 rounded-full mr-2">
+                <span>Friend 3</span>
+            </div>
+            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg transition duration-300">Follow</button>
+        </div> -->
+        <!-- <div class="mb-2 flex items-center justify-between">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/40" alt="Friend 4" class="w-10 h-10 rounded-full mr-2">
+                <span>Friend 3</span>
+            </div>
+            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg transition duration-300">Connect</button>
+        </div>
+
+            <div class="mb-2 flex items-center justify-between">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/40" alt="Friend 4" class="w-10 h-10 rounded-full mr-2">
+                <span>Friend 4</span>
+            </div>
+            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg transition duration-300">Connect</button>
+        </div>
+        <div class="mb-2 flex items-center justify-between">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/40" alt="Friend 4" class="w-10 h-10 rounded-full mr-2">
+                <span>Friend 5</span>
+            </div>
+            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg transition duration-300">Connect</button>
+        </div>
+
+    </div> -->
+    
+
+</div>
+
+</body>
+</html>

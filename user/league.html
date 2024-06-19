@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Leagues</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Include FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @keyframes slide {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .notification-bar {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: slide 15s linear infinite;
+        }
+        .interactive-box {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+        .interactive-box {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 2px solid #4A90E2; /* Add a blue border on hover */
+            background-color: #f0f8ff; /* Add a light blue background on hover */
+        }
+        .icon-bg {
+            transition: transform 0.3s;
+        }
+        .interactive-box:hover .icon-bg {
+            transform: rotate(360deg);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900 font-sans">
+
+
+<nav class="bg-white shadow-lg p-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <span class="text-2xl font-bold text-blue-600">KICK OFF</span>
+        <span class="text-2xl font-bold text-blue-600">Leagues</span>
+        <input type="text" placeholder="Search..." class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+    </div>
+</nav>
+
+
+<div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
+    <div class="max-w-7xl mx-auto notification-bar">
+        <span>Latest Match Results: Team A 2-1 Team B | Team C 3-3 Team D | Team E 0-2 Team F</span>
+    </div>
+</div>
+
+
+<div class="bg-[url('/images/204.jpg')] max-w-7xl mx-auto mt-8 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+    <!-- Leagues-->
+    <div class="bg-white shadow-lg p-6 h-40 rounded-lg cursor-pointer interactive-box" onclick="location.href='champions_league.html'">
+        <div class="flex items-center">
+            <div class="icon-bg w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center mr-3">
+                <img src="/images/uefa.svg" alt="Champions League Logo" class="w-auto h-auto border border-1 border-blue-600">
+            </div>
+            <h2 class="text-lg font-semibold">Champions League</h2>
+        </div>
+    </div>
+    <div class="bg-white shadow-lg p-6 h-40 rounded-lg cursor-pointer interactive-box" onclick="location.href='premier_league.html'">
+        <div class="flex items-center">
+            <div class="icon-bg w-12 h-12  bg-white border border-1 border-blue-600 flex items-center justify-center mr-3">
+                <img src="/images/premier-league.svg" alt="Premier League Logo" class="w-auto h-auto">
+            </div>
+            <h2 class="text-lg font-semibold">Premier League</h2>
+        </div>
+    </div>
+    <div class="bg-white shadow-lg p-6 h-40 rounded-lg cursor-pointer interactive-box" onclick="location.href='la_liga.html'">
+        <div class="flex items-center">
+            <div class="icon-bg w-12 h-12  bg-white border border-1 border-blue-600 text-white flex items-center justify-center mr-3">
+                <img src="/images/laligaa.png" alt="La Liga Logo" class="w-auto h-auto">
+            </div>
+            <h2 class="text-lg font-semibold">La Liga</h2>
+        </div>
+    </div>
+    <div class="bg-white shadow-lg p-6 h-40 rounded-lg cursor-pointer interactive-box" onclick="location.href='serie_a.html'">
+        <div class="flex items-center">
+            <div class="icon-bg w-12 h-12  bg-white-600 border border-1 border-blue-600 flex items-center justify-center mr-3">
+                <img src="/images//serie a.png" alt="Serie A Logo" class="w-auto h-auto">
+            </div>
+            <h2 class="text-lg font-semibold">Serie A</h2>
+        </div>
+    </div>
+    <div class="bg-white shadow-lg p-6 h-40 rounded-lg cursor-pointer interactive-box" onclick="location.href='bundesliga.html'">
+        <div class="flex items-center">
+            <div class="icon-bg w-12 h-12  bg-white border border-1 border-blue-600 flex items-center justify-center mr-3">
+                <img src="/images//bvb.png" alt="Bundesliga Logo" class="w-auto h-auto">
+            </div>
+            <h2 class="text-lg font-semibold">Bundesliga</h2>
+        </div>
+    </div>
+    <div class="bg-white shadow-lg p-6 h-40 rounded-lg cursor-pointer interactive-box" onclick="location.href='ligue_1.html'">
+        <div class="flex items-center">
+            <div class="icon-bg w-12 h-12 bg-white border border-1 border-blue-600 flex items-center justify-center mr-3">
+                <img src="/images/" alt="Ligue 1 Logo" class="w-8 h-8">
+            </div>
+            <h2 class="text-lg font-semibold">Ligue 1</h2>
+        </div>
+    </div>
+    <div class="bg-white shadow-lg p-6 h-40 rounded-lg cursor-pointer interactive-box" onclick="location.href='indian_super_league.html'">
+        <div class="flex items-center">
+            <div class="icon-bg w-12 h-12 bg-white border border-1 border-blue-600 flex items-center justify-center mr-3">
+                <img src="https://via.placeholder.com/50" alt="Indian Super League Logo" class="w-8 h-8">
+            </div>
+            <h2 class="text-lg font-semibold">Indian Super League</h2>
+        </div>
+    </div>
+    <div class="bg-white shadow-lg p-6 h-40 rounded-lg cursor-pointer interactive-box" onclick="location.href='eredivisie.html'">
+        <div class="flex items-center">
+            <div class="icon-bg w-12 h-12 bg-white border border-1 border-blue-600 flex items-center justify-center mr-3">
+                <img src="https://via.placeholder.com/50" alt="Eredivisie Logo" class="w-8 h-8">
+            </div>
+            <h2 class="text-lg font-semibold">Eredivisie</h2>
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Kickoff</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- Sidebar -->
+<div id="sidebar" class="fixed left-0 top-0 h-full bg-blue-800 text-gray-100 w-20 sm:w-36 overflow-y-auto z-50">
+    <div class="p-4">
+        <!-- Sidebar header -->
+        <h2 class="text-xl font-bold mb-4">Admin</h2>
+        <!-- navigation -->
+        <ul class="space-y-4">
+            <li>
+                <button class="sidebar-link w-full flex items-center justify-center rounded-lg py-2 hover:bg-gray-700 transition duration-300 focus:outline-none" onclick="toggleSubMenu('userManagement')">
+                    <i class="fas fa-users"></i>
+                </button>
+                <ul id="userManagement" class="submenu hidden ml-4 mt-2 space-y-2">
+                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="viewUser.html">View Users</a></li>
+                    <!-- <li class="mb-4"><a href="#" class="load-content" data-file="viewUser.html">Page 2</a></li>
+                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Edit User</a></li>
+                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Delete User</a></li> -->
+                </ul>
+            </li>
+            <li>
+                <button class="sidebar-link w-full flex items-center justify-center rounded-lg py-2 hover:bg-gray-700 transition duration-300 focus:outline-none" onclick="toggleSubMenu('contentManagement')">
+                    <i class="fas fa-file-alt"></i>
+                </button>
+                <ul id="contentManagement" class="submenu hidden ml-4 mt-2 space-y-2">
+                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Posts</a></li>
+                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Comments</a></li>
+                    <!-- <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Images</a></li> -->
+                    <!-- <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Videos</a></li> -->
+                </ul>
+            </li>
+            <!-- <li>
+                <button class="sidebar-link w-full flex items-center justify-center rounded-lg py-2 hover:bg-gray-700 transition duration-300 focus:outline-none" onclick="toggleSubMenu('settings')">
+                    <i class="fas fa-cog"></i>
+                </button> -->
+                <!-- <ul id="settings" class="submenu hidden ml-4 mt-2 space-y-2">
+                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">General Settings</a></li>
+                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Security Settings</a></li>
+                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Appearance Settings</a></li>
+                </ul> -->
+            <!-- </li> -->
+            <li>
+                <button class="sidebar-link w-full flex items-center justify-center rounded-lg py-2 hover:bg-gray-700 transition duration-300 focus:outline-none" onclick="toggleSubMenu('analytics')">
+                    <i class="fas fa-chart-line"></i>
+                </button>
+                <ul id="analytics" class="submenu hidden ml-4 mt-2 space-y-2">
+                    <!-- <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Total Overview</a></li> -->
+                    <li><a href="" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="grapgh.html">User Engagement</a></li>
+                    <li><a href="" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="content.html">Content Performance</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="p-4 mt-96">
+        <button class="w-full flex items-center justify-center rounded-lg py-1 bg-blue-800 hover:bg-red-500 transition duration-300 focus:outline-none">
+           <span class="ml-2"><a href="adminLogin.html"> Logout</a></span>
+        </button>
+    </div>
+</div>
+</div>
+
+<!-- Main area -->
+<div id="Maincontent" class="ml-20 sm:ml-36">
+    <nav class="bg-blue-800 shadow-lg p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <span class="text-2xl font-bold text-white">Admin Dashboard</span>
+            <a href="home.html" class="text-white hover:underline">Back to Home</a>
+        </div>
+        </nav>
+    <section id="content" class="bg-gray-50 shadow-lg rounded-xl p-6 mb-8">
+        <h2 class="text-xl font-semibold text-gray-800 mb-6"></h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white border-l-4 border-r-4 border-blue-500 p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out flex items-center">
+                <div>
+                    <h3 class="text-blue-900 text-sm font-semibold mb-1">Total Users</h3>
+                    <p class="text-3xl font-bold text-blue-900">120</p>
+                </div>
+            </div>
+            <div class="bg-white border-l-4 border-r-4 border-green-500 p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out flex items-center">
+                <div class="flex-shrink-0 mr-4">
+                </div>
+                <div>
+                    <h3 class="text-green-900 text-sm font-semibold mb-1">Total Posts</h3>
+                    <p class="text-3xl font-bold text-green-900">90</p>
+                </div>
+            </div>
+            <div class="bg-white border-l-4 border-r-4 border-yellow-500 p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out flex items-center">
+                <div class="flex-shrink-0 mr-4">
+                </div>
+                <div>
+                    <h3 class="text-yellow-900 text-sm font-semibold mb-1">Active Users</h3>
+                    <p class="text-3xl font-bold text-yellow-900">15</p>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-8 px-4">
+            <h2 class="text-lg font-semibold text-purple-600 mb-4">Admin Dashboard</h2>
+            <p>Select sidebar to view.</p>
+        </div>  
+    </section>
+ 
+    
+</div>
+
+
+<script>
+    function toggleSubMenu(submenuId) {
+        const submenu = document.getElementById(submenuId);
+        submenu.classList.toggle('hidden');
+    }
+    document.querySelectorAll('.load-content').forEach(item => {
+            item.addEventListener('click', event => {
+                event.preventDefault();
+                const file = event.target.getAttribute('data-file');
+                fetch(file)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('content').innerHTML = data;
+                    })
+                    .catch(error => console.error('Error loading content:', error));
+            });
+        });
+</script>
+
+</body>
+</html>
