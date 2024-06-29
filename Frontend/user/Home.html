@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Football Website</title>
  
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -24,7 +24,7 @@
 <!--Navbar -->
 <nav class="bg-gradient-to-r from-green-400 to-blue-500 shadow-lg p-4 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <span class="text-2xl font-bold text-white">KICK OFF</span>
+        <span class="text-2xl font-bold text-white">KICK off</span>
         <input type="text" placeholder="Search..." class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400">
     </div>
 </nav>
@@ -101,7 +101,7 @@
 
             <!-- Add Update-->
                 <div class="flex justify-center mb-8 ml-[-4]">
-                        <button onclick="toggleUpdateSection()" class="bg-transparent text-md font-semibold  text-black py-2 px-2  rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                        <button onclick="toggleUpdateSection()" class="bg-transparent text-md font-semibold  text-black py-2 px-2  rounded-md hover:border border-1 border-blue-600 focus:outline-none focus:bg-blue-600">
                             Update Your Information
                         </button>
                 </div>
@@ -118,13 +118,17 @@
                             <input type="email" id="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black" required>
                         </div>
                         <div class="mb-4">
+                            <label for="phone" class="block text-gray-700">Mobile</label>
+                            <input type="phone" id="pone" name="phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black" required>
+                        </div>
+                        <!-- <div class="mb-4">
                             <label for="password" class="block text-gray-700">Password</label>
                             <input type="password" id="password" name="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black" required>
                         </div>
                         <div class="mb-4">
                             <label for="confirm_password" class="block text-gray-700">Confirm Password</label>
                             <input type="password" id="confirm_password" name="confirm_password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black" required>
-                        </div>
+                        </div> -->
                         <div class="mb-4">
                             <label for="fav_team1" class="block text-gray-700">Favorite Team 1</label>
                             <input type="text" id="fav_team1" name="fav_team1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black" required>
@@ -158,7 +162,26 @@
             <img src="/images/_.jpeg" alt="Football News 1" class="mb-4 rounded-lg shadow-md hover:shadow-xl transition duration-300">
             <h3 class="text-xl font-semibold mb-2">Cristiano Ronaldo Rumored to Return to Real Madrid</h3>
             <p class="text-gray-600">Speculations are rife about Cristiano Ronaldo's potential return to Real Madrid, sparking excitement among fans and former teammates.</p>
+            
+            <div class="flex justify-between items-center mt-4 border-t pt-4">
+                <button class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition duration-300">
+                    <i class="fas fa-thumbs-up"></i>
+                    <span>Like</span>
+                </button>
+                
+                <button class="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition duration-300">
+                    <i class="fas fa-comment"></i>
+                    <span>Comment</span>
+                </button>
+                
+                <button class="flex items-center space-x-2 text-gray-600 hover:text-purple-600 transition duration-300">
+                    <i class="fas fa-share"></i>
+                    <span>Share</span>
+                </button>
+            </div>
         </div>
+                    
+        
 
         <div class="mb-6">
             <img src="/images/vini.jpeg" alt="Football News 2" class="mb-4 rounded-lg shadow-md hover:shadow-xl transition duration-300">
