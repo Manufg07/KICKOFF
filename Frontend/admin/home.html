@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Kickoff</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>  
 <body class="bg-gray-100 font-sans">
@@ -23,10 +21,7 @@
                     <i class="fas fa-users"></i>
                 </button>
                 <ul id="userManagement" class="submenu hidden ml-4 mt-2 space-y-2">
-                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="viewUser.html">View Users</a></li>
-                    <!-- <li class="mb-4"><a href="#" class="load-content" data-file="viewUser.html">Page 2</a></li>
-                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Edit User</a></li>
-                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Delete User</a></li> -->
+                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="/viewusers">View Users</a></li>
                 </ul>
             </li>
             <li>
@@ -36,28 +31,15 @@
                 <ul id="contentManagement" class="submenu hidden ml-4 mt-2 space-y-2">
                     <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Posts</a></li>
                     <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Comments</a></li>
-                    <!-- <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Images</a></li> -->
-                    <!-- <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Videos</a></li> -->
                 </ul>
             </li>
-            <!-- <li>
-                <button class="sidebar-link w-full flex items-center justify-center rounded-lg py-2 hover:bg-gray-700 transition duration-300 focus:outline-none" onclick="toggleSubMenu('settings')">
-                    <i class="fas fa-cog"></i>
-                </button> -->
-                <!-- <ul id="settings" class="submenu hidden ml-4 mt-2 space-y-2">
-                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">General Settings</a></li>
-                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Security Settings</a></li>
-                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Appearance Settings</a></li>
-                </ul> -->
-            <!-- </li> -->
             <li>
                 <button class="sidebar-link w-full flex items-center justify-center rounded-lg py-2 hover:bg-gray-700 transition duration-300 focus:outline-none" onclick="toggleSubMenu('analytics')">
                     <i class="fas fa-chart-line"></i>
                 </button>
                 <ul id="analytics" class="submenu hidden ml-4 mt-2 space-y-2">
-                    <!-- <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Total Overview</a></li> -->
-                    <li><a href="" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="grapgh.html">User Engagement</a></li>
-                    <li><a href="" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="content.html">Content Performance</a></li>
+                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="grapgh.html">User Engagement</a></li>
+                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="content.html">Content Performance</a></li>
                 </ul>
             </li>
         </ul>
@@ -68,7 +50,6 @@
         </button>
     </div>
 </div>
-</div>
 
 <!-- Main area -->
 <div id="Maincontent" class="ml-20 sm:ml-36">
@@ -77,14 +58,14 @@
             <span class="text-2xl font-bold text-white">Admin Dashboard</span>
             <a href="home.html" class="text-white hover:underline">Back to Home</a>
         </div>
-        </nav>
+    </nav>
     <section id="content" class="bg-gray-50 shadow-lg rounded-xl p-6 mb-8">
         <h2 class="text-xl font-semibold text-gray-800 mb-6"></h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="bg-white border-l-4 border-r-4 border-blue-500 p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out flex items-center">
                 <div>
                     <h3 class="text-blue-900 text-sm font-semibold mb-1">Total Users</h3>
-                    <p class="text-3xl font-bold text-blue-900">120</p>
+                    <p id="totalUsers" class="text-3xl font-bold text-blue-900"></p>
                 </div>
             </div>
             <div class="bg-white border-l-4 border-r-4 border-green-500 p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out flex items-center">
@@ -109,28 +90,55 @@
             <p>Select sidebar to view.</p>
         </div>  
     </section>
- 
-    
 </div>
-
 
 <script>
     function toggleSubMenu(submenuId) {
         const submenu = document.getElementById(submenuId);
         submenu.classList.toggle('hidden');
     }
+
     document.querySelectorAll('.load-content').forEach(item => {
-            item.addEventListener('click', event => {
-                event.preventDefault();
-                const file = event.target.getAttribute('data-file');
-                fetch(file)
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById('content').innerHTML = data;
-                    })
-                    .catch(error => console.error('Error loading content:', error));
-            });
+        item.addEventListener('click', event => {
+            event.preventDefault();
+            const file = event.target.getAttribute('data-file');
+            console.log('Fetching file:', file); // Debugging log
+            fetch(file)
+                .then(response => {
+                    console.log('Response status:', response.status); // Debugging log
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Received data:', data); // Debugging log
+                    const contentElement = document.getElementById('content');
+                    contentElement.innerHTML = data;
+                    executeScripts(contentElement);
+                })
+                .catch(error => {
+                    console.error('Error loading content:', error);
+                });
         });
+    });
+
+    function executeScripts(container) {
+        const scripts = container.querySelectorAll('script');
+        scripts.forEach(script => {
+            const newScript = document.createElement('script');
+            newScript.textContent = script.textContent;
+            document.body.appendChild(newScript).parentNode.removeChild(newScript);
+        });
+    }
+
+    // Fetch total users
+    fetch('/admin/totalUsers')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('totalUsers').innerText = data.totalUsers;
+        })
+        .catch(error => console.error('Error fetching total users:', error));
 </script>
 
 </body>

@@ -78,4 +78,14 @@ router.get('/Home', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'user', 'Home.html'));
 });
 
+router.get('/users', async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.json(users);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching users');
+    }
+});
+
 module.exports = router;

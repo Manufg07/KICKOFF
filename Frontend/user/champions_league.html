@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champions League</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .hero {
+            background-image: url('your-hero-image.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .match-card {
+            background-color: #F3F4F6;
+            border-radius: 0.75rem; /* rounded-lg */
+            overflow: hidden;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-900 font-sans">
+
+    <!-- Hero Section -->
+    <div class="hero bg-gradient-to-r from-blue-500 to-indigo-500">
+        <div class="text-center">
+            <h1 class="text-5xl font-bold mb-4">Champions League Live</h1>
+            <p class="text-xl">Stay updated with live match results, point table, and top scorers.</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <span class="text-3xl font-bold text-blue-600">KICK off</span>
+            <span class="text-3xl font-bold text-blue-600">Champions League</span>
+            <input type="text" placeholder="Search..."
+                class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto mt-8 px-4">
+        <h2 class="text-3xl font-semibold mb-4">Live Information</h2>
+
+        <!-- Match Results Section -->
+        <section id="match-results" class="mb-12">
+            <h3 class="text-2xl font-semibold mb-4">Match Results</h3>
+            <div id="match-results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Match results will be injected here -->
+            </div>
+        </section>
+
+        <!-- Point Table Section -->
+        <section id="point-table" class="mb-12">
+            <h3 class="text-2xl font-semibold mb-4">Point Table</h3>
+            <div id="point-table-container" class="bg-white shadow-lg p-6 rounded-lg">
+                <!-- Point table will be injected here -->
+            </div>
+        </section>
+
+        <!-- Top Scorers Section -->
+        <section id="top-scorers">
+            <h3 class="text-2xl font-semibold mb-4">Top Scorers</h3>
+            <div id="top-scorers-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Top scorers will be injected here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchLiveInfo();
+        });
+
+        async function fetchLiveInfo() {
+            try {
+                const response = await fetch('http://localhost:3000/api/football');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Fetched data:', data); // Log fetched data to see its structure
+
+                if (data) {
+                    displayMatchResults(data.matches || []);
+                    displayPointTable((data.standings && data.standings[0] && data.standings[0].table) || []);
+                    displayTopScorers(data.scorers || []);
+                } else {
+                    throw new Error('Unexpected data structure');
+                }
+            } catch (error) {
+                console.error('Error fetching live information:', error);
+                showError(error);
+            }
+        }
+
+        function displayMatchResults(matches) {
+            const matchResultsContainer = document.getElementById('match-results-container');
+            matchResultsContainer.innerHTML = ''; // Clear any existing content
+
+            if (matches.length > 0) {
+                matches.forEach(match => {
+                    const matchElement = document.createElement('div');
+                    matchElement.classList.add('match-card', 'shadow-lg', 'rounded-lg', 'mb-8', 'overflow-hidden');
+                    const imageURL = match.imageURL || 'default-image-url.jpg'; // Handle missing imageURL
+                    matchElement.innerHTML = `
+                        <img src="${imageURL}" alt="${match.homeTeam.name} vs ${match.awayTeam.name}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-bold mb-2">${match.homeTeam.name} vs ${match.awayTeam.name}</h3>
+                            <p class="text-lg"><strong>Date:</strong> ${new Date(match.utcDate).toLocaleString()}</p>
+                            <p class="text-lg"><strong>Status:</strong> ${match.status}</p>
+                            <p class="text-lg"><strong>Score:</strong> ${match.score.fullTime.homeTeam} - ${match.score.fullTime.awayTeam}</p>
+                        </div>
+                    `;
+                    matchResultsContainer.appendChild(matchElement);
+                });
+            } else {
+                matchResultsContainer.innerHTML = '<p class="text-gray-600 text-center">No match data available.</p>';
+            }
+        }
+
+        function displayPointTable(table) {
+            const pointTableContainer = document.getElementById('point-table-container');
+            pointTableContainer.innerHTML = ''; // Clear any existing content
+
+            if (table.length > 0) {
+                const tableElement = document.createElement('table');
+                tableElement.classList.add('w-full', 'border', 'border-gray-300', 'divide-y', 'divide-gray-300', 'rounded-lg', 'overflow-hidden');
+                tableElement.innerHTML = `
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-2">Position</th>
+                            <th class="px-4 py-2">Team</th>
+                            <th class="px-4 py-2">Played</th>
+                            <th class="px-4 py-2">Won</th>
+                            <th class="px-4 py-2">Drawn</th>
+                            <th class="px-4 py-2">Lost</th>
+                            <th class="px-4 py-2">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${table.map(team => `
+                            <tr>
+                                <td class="border px-4 py-2">${team.position}</td>
+                                <td class="border px-4 py-2">${team.team.name}</td>
+                                <td class="border px-4 py-2">${team.playedGames}</td>
+                                <td class="border px-4 py-2">${team.won}</td>
+                                <td class="border px-4 py-2">${team.draw}</td>
+                                <td class="border px-4 py-2">${team.lost}</td>
+                                <td class="border px-4 py-2">${team.points}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+                pointTableContainer.appendChild(tableElement);
+            } else {
+                pointTableContainer.innerHTML = '<p class="text-gray-600 text-center">Point table data not available.</p>';
+            }
+        }
+
+        function displayTopScorers(scorers) {
+            const topScorersContainer = document.getElementById('top-scorers-container');
+            topScorersContainer.innerHTML = ''; // Clear any existing content
+
+            if (scorers.length > 0) {
+                scorers.slice(0, 6).forEach(scorer => {
+                    const scorerElement = document.createElement('div');
+                    scorerElement.classList.add('bg-white', 'shadow-lg', 'p-6', 'rounded-lg', 'mb-8', 'overflow-hidden');
+                    scorerElement.innerHTML = `
+                        <h3 class="text-xl font-bold mb-2">${scorer.player.name}</h3>
+                        <p class="text-lg"><strong>Team:</strong> ${scorer.team.name}</p>
+                        <p class="text-lg"><strong>Goals:</strong> ${scorer.numberOfGoals}</p>
+                    `;
+                    topScorersContainer.appendChild(scorerElement);
+                });
+            } else {
+                topScorersContainer.innerHTML = '<p class="text-gray-600 text-center">Top scorers data not available.</p>';
+            }
+        }
+
+        function showError(error) {
+            console.error('showError function called with:', error);
+            const matchResultsContainer = document.getElementById('match-results');
+            if (matchResultsContainer) {
+                matchResultsContainer.innerHTML = '<p class="text-red-600 text-center">Failed to load live information. Please try again later.</p>';
+            } else {
+                console.error('match-results container not found.');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

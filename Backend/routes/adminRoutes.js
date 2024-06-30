@@ -2,11 +2,13 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const Admin = require('../Models/AdminDetails'); // Make sure you have an AdminDetails model
+const User = require('../Models/UserDetails');
+
 
 const router = express.Router();
 
 router.get('/admin/register', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'Admin_Register.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'adminRegister.html'));
 });
 
 router.post('/admin/register', async (req, res) => {
@@ -47,7 +49,7 @@ router.post('/admin/register', async (req, res) => {
 });
 
 router.get('/admin/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'Admin_Login.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'adminLogin.html'));
 });
 
 router.post('/admin/login', async (req, res) => {
@@ -75,6 +77,30 @@ router.post('/admin/login', async (req, res) => {
 
 router.get('/admin/home', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'home.html'));
+});
+
+router.get('/admin/totalUsers', async (req, res) => {
+    try {
+        const totalUsers = await User.countDocuments({});
+        res.json({ totalUsers });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching total users');
+    }
+});
+
+router.get('/users', async (req, res) => {  // Ensure this route is correct
+    try {
+        const users = await User.find({});
+        res.json(users);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching users');
+    }
+});
+
+router.get('/viewusers', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'viewUser.html'));
 });
 
 module.exports = router;
