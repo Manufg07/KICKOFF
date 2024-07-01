@@ -3,6 +3,11 @@ const { Schema } = mongoose;
 
 // User schema and model
 const userSchema = new Schema({
+    userId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     username: {
         type: String,
         required: true,
@@ -24,6 +29,16 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    fav_team1 :{
+        type: String,
+        required: true,
+        trim: true,
+    },
+    fav_player : {
+        type: String,
+        required: true,
+        trim: true,
+    }
 }, {
     timestamps: true,
 });

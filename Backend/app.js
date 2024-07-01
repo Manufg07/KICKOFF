@@ -1,8 +1,10 @@
 const express = require('express');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv');
+// const { v4: uuidv4 } = require('uuid');
 const User = require('./Models/UserDetails');
 const Admin = require('./Models/AdminDetails'); 
 const fetch = require('node-fetch');
@@ -12,11 +14,17 @@ const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '..', 'Frontend')));
+app.use(session({
+    secret: 'your-secret-key', // replace with a strong secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using https
+}));
 
 // MongoDB connection
 dotenv.config();
@@ -37,6 +45,9 @@ app.get('/', (req, res) => {
     res.redirect('/register');
 });
 
+const userRouter = require('./routes/userRoutes'); // Assuming your routes are in the routes/user.js file
+app.use('/', userRouter);
+
 app.use(cors());
 app.use('/', userRoutes);
 app.use('/', adminRoutes);
@@ -54,6 +65,7 @@ app.get('/api/football', async (req, res) => {
         const data = await response.json();
         res.json(data);
     } catch (error) {
+        console.error('Error fetching football data:', error);
         res.status(500).json({ error: 'Failed to fetch data' });
     }
 });

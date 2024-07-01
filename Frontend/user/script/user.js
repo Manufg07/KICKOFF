@@ -1,9 +1,55 @@
+// document.addEventListener('DOMContentLoaded', () => {
+//     fetch('/api/user')
+//         .then(response => response.json())
+//         .then(user => {
+//             if (user.username) {
+//                 document.getElementById('username').textContent = user.username;
+//             }
+//         })
+//         .catch(error => console.error('Error fetching user data:', error));
+// });
+
+
 //  JavaScript for handling the form and previewing content 
-     function toggleUpdateSection() {
-        const updateSection = document.getElementById('updateSection');
-        updateSection.classList.toggle('hidden');
-    }
+    //  function toggleUpdateSection() {
+    //     const updateSection = document.getElementById('updateSection');
+    //     updateSection.classList.toggle('hidden');
+    // }
+        // User data object
+        const userData = {
+            username: "{{username}}",
+            email: "{{email}}",
+            phone: "{{phone}}",
+            fav_team1: "{{fav_team1}}",
+            fav_player: "{{fav_player}}"
+        };
     
+        // Function to load user data into the form
+        function loadUserData() {
+            document.getElementById('username').value = userData.username;
+            document.getElementById('email').value = userData.email;
+            document.getElementById('phone').value = userData.phone;
+            document.getElementById('fav_team1').value = userData.fav_team1;
+            document.getElementById('fav_player').value = userData.fav_player;
+        }
+    
+        // Function to toggle the update section
+        function toggleUpdateSection() {
+            const updateSection = document.getElementById('updateSection');
+            updateSection.classList.toggle('hidden');
+        
+            if (!updateSection.classList.contains('hidden')) {
+                loadUserData();
+            }
+        }
+    
+        // Add event listener for form submission
+        document.getElementById('updateForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // You can add client-side validation here if needed
+            this.submit();
+        });
+
     function toggleChat() {
         const chatModal = document.getElementById('chatModal');
         chatModal.classList.toggle('hidden');
@@ -144,5 +190,5 @@
 
         // Optionally, add code to send postData to the server or display it on the page
     }
-    
+
 
