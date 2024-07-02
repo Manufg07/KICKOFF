@@ -1,25 +1,52 @@
 const jwt = require('jsonwebtoken');
-const User = require('../Models/UserDetails'); // Import your User model
 
-const authMiddleware = async (req, res, next) => {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+module.exports = function(req, res, next) {
+    // Get token from header
+    const token = req.header('Authorization').replace('Bearer ', '');
+
+    // Check if no token
     if (!token) {
-        return res.status(401).send({ error: 'Authentication token is missing.' });
+        return res.status(401).json({ msg: 'No token, authorization denied' });
     }
 
+    // Verify token
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Use your secret key
-        const user = await User.findOne({ _id: decoded._id, 'tokens.token': token });
-
-        if (!user) {
-            throw new Error('User not found');
-        }
-
-        req.user = user;
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded.user;
         next();
-    } catch (error) {
-        res.status(401).send({ error: 'Please authenticate.' });
+    } catch (err) {
+        res.status(401).json({ msg: 'Token is not valid' });
     }
 };
+// In auth.js or a similar file handling authentication
 
-module.exports = authMiddleware;
+// async function login(username, password) {
+//     try {
+//         const response = await fetch('/api/login', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({ username, password }),
+//         });
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//         const data = await response.json();
+//         localStorage.setItem('token', data.token);
+        
+//         // Redirect to home page or refresh the current page
+//         window.location.href = '/home'; // or wherever you want to redirect after login
+//     } catch (error) {
+//         console.error('Login failed', error);
+//         // Show error message to the user
+//     }
+// }
+
+// // You would typically call this function when the user submits a login form
+// document.getElementById('loginForm').addEventListener('submit', function(event) {
+//     event.preventDefault();
+//     const username = document.getElementById('username').value;
+//     const password = document.getElementById('password').value;
+//     login(username, password);
+// });

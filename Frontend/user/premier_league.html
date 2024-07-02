@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Champions League Live Updates</title>
+    <title>Premier League Live Updates</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -14,13 +14,13 @@
     <nav class="bg-white shadow-lg p-4 sticky top-0 z-50 flex justify-between items-center">
         <div class="flex items-center space-x-4">
             <a href="#" class="text-2xl font-bold text-blue-600 hover:underline" onclick="redirectToHomepage()">KICK off</a>
-            <span class="text-2xl font-bold text-blue-600">Champions League</span>
+            <span class="text-2xl font-bold text-blue-600">Premier League</span>
         </div>
         <input id="search-input" type="text" placeholder="Search by team name..." class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
     </nav>
 
     <div class="max-w-7xl mx-auto mt-8 px-4">
-        <h1 class="text-4xl font-bold text-indigo-600 text-center mb-8">Champions League Live Updates</h1>
+        <h1 class="text-4xl font-bold text-indigo-600 text-center mb-8">Premier League Live Updates</h1>
 
         <!-- Match Results Section -->
         <section id="match-results" class="mb-12">
@@ -57,7 +57,7 @@
 
         async function fetchLiveInfo() {
             try {
-                const response = await fetch('http://localhost:3002/api/football'); // Ensure the port matches your server
+                const response = await fetch('http://localhost:3002/api/premier_league'); // Ensure the port matches your server
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -177,20 +177,20 @@
         }
 
         function redirectToHomepage() {
-        fetch('/api/check-session')
-            .then(response => response.json())
-            .then(data => {
-                if (data.loggedIn) {
-                    window.location.href = '/Home'; 
-                } else {
+            fetch('/api/check-session')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.loggedIn) {
+                        window.location.href = '/Home'; 
+                    } else {
+                        window.location.href = '/login'; 
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking session:', error);
                     window.location.href = '/login'; 
-                }
-            })
-            .catch(error => {
-                console.error('Error checking session:', error);
-                window.location.href = '/login'; 
-            });
-    }
+                });
+        }
     </script>
 
 </body>

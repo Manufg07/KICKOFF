@@ -107,6 +107,32 @@ app.get('/api/football', async (req, res) => {
     }
 });
 
+// Serve your HTML page for Premier League
+app.get('/premier_league', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/user/premier_league.html'));
+});
+
+// API route fetching data from football-data.org
+app.get('/api/premier_league', async (req, res) => {
+    try {
+        const fetch = (await import('node-fetch')).default;
+        const apiKey = process.env.FOOTBALL_DATA_API_KEY;
+        const response = await fetch('https://api.football-data.org/v2/competitions/PL/matches', {
+            headers: {
+                'X-Auth-Token': apiKey
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('API Response:', data);
+        res.json(data);
+    } catch (error) {
+        console.error('Error fetching Premier League data:', error);
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+});
 
 
 // x-rapidapi-key': 'ae9cd53d1c2f4aa4b62f942b8c1e9318
