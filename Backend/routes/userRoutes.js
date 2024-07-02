@@ -1,10 +1,13 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const path = require('path');
+const multer = require('multer');
 const session = require('express-session');
 const User = require('../Models/UserDetails');
 const Counter = require('../Models/Counter');
+const Post = require('../Models/Post');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const router = express.Router();
@@ -16,6 +19,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
+
 
 router.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'user', 'User_Register.html'));
@@ -154,7 +158,31 @@ router.post('/update-profile', async (req, res) => {
         res.redirect('/Home');
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error updating user details');
+        res.status(500).send('Error updating profile');
+    }
+});
+
+router.get('/get-user-details', async (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    try {
+        const user = await User.findOne({ userId: req.session.userId });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({
+            username: user.username,
+            email: user.email,
+            phone: user.phone,
+            fav_team1: user.fav_team1,
+            fav_player: user.fav_player
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error fetching user details' });
     }
 });
 
@@ -168,6 +196,28 @@ router.get('/users', async (req, res) => {
     }
 });
 
+
+// const authMiddleware = async (req, res, next) => {
+//     const token = req.header('Authorization').replace('Bearer ', '');
+//     try {
+//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//         const user = await User.findOne({ _id: decoded._id, 'tokens.token': token });
+
+//         if (!user) {
+//             throw new Error();
+//         }
+
+//         req.user = user;
+//         next();
+//     } catch (error) {
+//         res.status(401).send({ error: 'Please authenticate.' });
+//     }
+// };
+
+
+
+
+
 router.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
@@ -175,6 +225,14 @@ router.get('/logout', (req, res) => {
         }
         res.redirect('/login');
     });
+});
+
+app.get('/api/check-session', (req, res) => {
+    if (req.session && req.session.user) {
+        res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        res.json({ loggedIn: false });
+    }
 });
 
 module.exports = router;

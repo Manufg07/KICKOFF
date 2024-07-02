@@ -31,12 +31,12 @@ const userSchema = new Schema({
     },
     fav_team1 :{
         type: String,
-        required: true,
+        required: false,
         trim: true,
     },
     fav_player : {
         type: String,
-        required: true,
+        required: false,
         trim: true,
     }
 }, {

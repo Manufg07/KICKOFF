@@ -1,20 +1,4 @@
-// document.addEventListener('DOMContentLoaded', () => {
-//     fetch('/api/user')
-//         .then(response => response.json())
-//         .then(user => {
-//             if (user.username) {
-//                 document.getElementById('username').textContent = user.username;
-//             }
-//         })
-//         .catch(error => console.error('Error fetching user data:', error));
-// });
 
-
-//  JavaScript for handling the form and previewing content 
-    //  function toggleUpdateSection() {
-    //     const updateSection = document.getElementById('updateSection');
-    //     updateSection.classList.toggle('hidden');
-    // }
         // User data object
         const userData = {
             username: "{{username}}",
@@ -33,22 +17,26 @@
             document.getElementById('fav_player').value = userData.fav_player;
         }
     
-        // Function to toggle the update section
         function toggleUpdateSection() {
             const updateSection = document.getElementById('updateSection');
-            updateSection.classList.toggle('hidden');
+            if (updateSection.classList.contains('hidden')) {
+                // Fetch user details and pre-fill the form
+                fetch('/get-user-details')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('username').value = data.username || '';
+                        document.getElementById('email').value = data.email || '';
+                        document.getElementById('phone').value = data.phone || '';
+                        document.getElementById('fav_team1').value = data.fav_team1 || '';
+                        document.getElementById('fav_player').value = data.fav_player || '';
+                    })
+                    .catch(error => console.error('Error fetching user details:', error));
         
-            if (!updateSection.classList.contains('hidden')) {
-                loadUserData();
+                updateSection.classList.remove('hidden');
+            } else {
+                updateSection.classList.add('hidden');
             }
         }
-    
-        // Add event listener for form submission
-        document.getElementById('updateForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            // You can add client-side validation here if needed
-            this.submit();
-        });
 
     function toggleChat() {
         const chatModal = document.getElementById('chatModal');
@@ -164,31 +152,171 @@
             messageInput.value = '';
         }
     }
-    function togglePostSection() {
-        const postSection = document.getElementById('postSection');
-        if (postSection.classList.contains('hidden')) {
-            postSection.classList.remove('hidden');
-        } else {
-            postSection.classList.add('hidden');
+  
+
+document.addEventListener('DOMContentLoaded', () => {
+    const togglePostButton = document.getElementById('togglePostButton');
+    const postSection = document.getElementById('postSection');
+
+    if (togglePostButton) {
+        togglePostButton.addEventListener('click', () => {
+            postSection.classList.toggle('hidden');
+        });
+    } else {
+        console.error('togglePostButton element not found');
+    }
+
+    const postForm = document.getElementById('postForm');
+    if (postForm) {
+        postForm.addEventListener('submit', handlePost);
+    } else {
+        console.error('postForm element not found');
+    }
+
+    // Fetch initial posts when the page loads
+    fetchPosts();
+});
+
+// Preview selected image or video
+function previewFile(event, previewId) {
+    const preview = document.getElementById(previewId);
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = function() {
+        if (file.type.startsWith('image/')) {
+            preview.src = reader.result;
+            preview.style.display = 'block';
+        } else if (file.type.startsWith('video/')) {
+            preview.src = reader.result;
+            preview.style.display = 'block';
         }
+    };
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = '';
+        preview.style.display = 'none';
+    }
+}
+
+// Handle post submission
+async function handlePost(event) {
+    event.preventDefault();
+
+    const postText = document.getElementById('postText').value;
+    const postImage = document.getElementById('postImage').files[0];
+    const postVideo = document.getElementById('postVideo').files[0];
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        console.error('No token found in localStorage');
+        return;
     }
 
-    function handlePost(event) {
-        event.preventDefault();
+    const formData = new FormData();
+    formData.append('text', postText);
+    if (postImage) formData.append('image', postImage);
+    if (postVideo) formData.append('video', postVideo);
 
-        const postText = document.getElementById('postText').value;
-        const postImage = document.getElementById('postImage').files[0];
-        const postVideo = document.getElementById('postVideo').files[0];
+    try {
+        const response = await fetch('/api/posts', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
 
-        const postData = {
-            text: postText,
-            image: postImage ? URL.createObjectURL(postImage) : null,
-            video: postVideo ? URL.createObjectURL(postVideo) : null
-        };
+        if (response.ok) {
+            const post = await response.json();
+            // Function to add the post to the homepage
+            addPostToHomepage(post);
+        } else {
+            console.error('Failed to post content', await response.text());
+        }
+    } catch (error) {
+        console.error('Failed to post content', error);
+    }
+}
 
-        console.log('Posted Data:', postData);
+// Add a new post to the homepage
+function addPostToHomepage(post) {
+    const postContainer = document.createElement('div');
+    postContainer.className = 'post mb-6 p-4 border rounded-lg shadow-lg';
 
-        // Optionally, add code to send postData to the server or display it on the page
+    if (post.imageUrl) {
+        const postImage = document.createElement('img');
+        postImage.src = post.imageUrl;
+        postImage.alt = 'Post Image';
+        postImage.className = 'mb-4 rounded-lg shadow-md hover:shadow-xl transition duration-300';
+        postContainer.appendChild(postImage);
     }
 
+    if (post.videoUrl) {
+        const postVideo = document.createElement('video');
+        postVideo.src = post.videoUrl;
+        postVideo.controls = true;
+        postVideo.className = 'mt-2 max-w-xs rounded-lg shadow-md';
+        postContainer.appendChild(postVideo);
+    }
 
+    if (post.text) {
+        const postText = document.createElement('p');
+        postText.textContent = post.text;
+        postText.className = 'text-gray-600';
+        postContainer.appendChild(postText);
+    }
+
+    const postDetails = document.createElement('div');
+    postDetails.className = 'flex justify-between items-center mt-4 border-t pt-4';
+
+    const likeButton = document.createElement('button');
+    likeButton.className = 'flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition duration-300';
+    likeButton.innerHTML = '<i class="fas fa-thumbs-up"></i><span>Like</span>';
+    postDetails.appendChild(likeButton);
+
+    const commentButton = document.createElement('button');
+    commentButton.className = 'flex items-center space-x-2 text-gray-600 hover:text-green-600 transition duration-300';
+    commentButton.innerHTML = '<i class="fas fa-comment"></i><span>Comment</span>';
+    postDetails.appendChild(commentButton);
+
+    const shareButton = document.createElement('button');
+    shareButton.className = 'flex items-center space-x-2 text-gray-600 hover:text-purple-600 transition duration-300';
+    shareButton.innerHTML = '<i class="fas fa-share"></i><span>Share</span>';
+    postDetails.appendChild(shareButton);
+
+    postContainer.appendChild(postDetails);
+
+    const postsContainer = document.getElementById('postsContainer');
+    if (postsContainer) {
+        postsContainer.insertBefore(postContainer, postsContainer.firstChild);
+    } else {
+        console.error('No posts container found');
+    }
+}
+
+// Fetch and display posts
+async function fetchPosts(page = 1, limit = 10) {
+    try {
+        const response = await fetch(`/api/posts?page=${page}&limit=${limit}`);
+        const data = await response.json();
+
+        data.posts.forEach(post => addPostToHomepage(post));
+
+        // Handle pagination if necessary
+        if (page < data.totalPages) {
+            const loadMoreButton = document.createElement('button');
+            loadMoreButton.textContent = 'Load More';
+            loadMoreButton.className = 'w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition duration-300';
+            loadMoreButton.onclick = () => {
+                loadMoreButton.remove();
+                fetchPosts(page + 1, limit);
+            };
+            document.body.appendChild(loadMoreButton);
+        }
+    } catch (error) {
+        console.error('Failed to fetch posts', error);
+    }
+}

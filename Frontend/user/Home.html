@@ -54,29 +54,40 @@
             </div>
 
 
-            <!-- Content Posting-->
-            <div>
-                <h3 class="text-md font-semibold cursor-pointer" onclick="togglePostSection()">Post Your Content</h3>
-                <div id="postSection" class="hidden mt-4">
-                    <form id="postForm" class="space-y-4" onsubmit="handlePost(event)">
-                        <div>
-                            <label for="postText" class="block text-gray-700 font-medium">Text</label>
-                            <textarea id="postText" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"></textarea>
-                        </div>
-                        <div>
-                            <label for="postImage" class="block text-gray-700 font-medium">Image</label>
-                            <input type="file" id="postImage" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" onchange="previewFile(event, 'imagePreview')">
-                            <img id="imagePreview" class="mt-2 max-w-xs rounded-lg shadow-md" alt="Image Preview">
-                        </div>
-                        <div>
-                            <label for="postVideo" class="block text-gray-700 font-medium">Video</label>
-                            <input type="file" id="postVideo" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" onchange="previewFile(event, 'videoPreview')">
-                            <video id="videoPreview" class="mt-2 max-w-xs rounded-lg shadow-md" controls></video>
-                        </div>
-                        <button type="submit" class="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition duration-300">Post</button>
-                    </form>
-                </div>
-            </div>
+   <!-- Toggle Button
+   <h3 id="togglePostButton" class="text-md font-semibold cursor-pointer">Post Your Content</h3> -->
+
+   <!-- Content Posting Section -->
+   <!-- <div id="postSection" class="hidden mt-4">
+       <form id="postForm" class="space-y-4">
+           <div>
+               <label for="postText" class="block text-gray-700 font-medium">Text</label>
+               <textarea id="postText" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"></textarea>
+           </div>
+           <div>
+               <label for="postImage" class="block text-gray-700 font-medium">Image</label>
+               <input type="file" id="postImage" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" onchange="previewFile(event, 'imagePreview')">
+               <img id="imagePreview" class="mt-2 max-w-xs rounded-lg shadow-md" alt="Image Preview">
+           </div>
+           <div>
+               <label for="postVideo" class="block text-gray-700 font-medium">Video</label>
+               <input type="file" id="postVideo" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" onchange="previewFile(event, 'videoPreview')">
+               <video id="videoPreview" class="mt-2 max-w-xs rounded-lg shadow-md" controls></video>
+           </div>
+           <button type="submit" class="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition duration-300">Post</button>
+       </form>
+   </div> --><button id="togglePostButton">Toggle Post Section</button>
+<section id="postSection" class="hidden">
+    <form id="postForm">
+        <input type="text" id="postText" placeholder="What's on your mind?">
+        <input type="file" id="postImage" onchange="previewFile(event, 'imagePreview')">
+        <input type="file" id="postVideo" onchange="previewFile(event, 'videoPreview')">
+        <button type="submit">Post</button>
+    </form>
+    <img id="imagePreview" style="display: none;">
+    <video id="videoPreview" style="display: none;" controls></video>
+</section>
+
 
              <!-- Timeline -->
     <!-- <div class="col-span-6 bg-white shadow-lg p-4 rounded-lg">
@@ -122,7 +133,8 @@
                 </div>
             </div>
 
-           <!-- Add Update-->
+          
+<!-- Add Update-->
 <div class="flex justify-center mb-8 ml-[-4]">
     <button onclick="toggleUpdateSection()" class="bg-transparent text-md font-semibold  text-black py-2 px-2  rounded-md hover:border border-1 border-blue-600 focus:outline-none focus:bg-blue-600">
         Update Your Information
@@ -155,7 +167,6 @@
         <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Update</button>
     </form>
 </div>
-
                 <!-- <div class="p-4 mt-96">
                     <button class="w-full flex items-center justify-center rounded-lg py-1 bg-blue-800 hover:bg-red-500 transition duration-300 focus:outline-none">
                        <span class="ml-2"><a href="User_Login.html"> Logout</a></span>
@@ -164,12 +175,12 @@
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content
     <div class="col-span-6 bg-white shadow-lg p-4 rounded-lg">
         <h2 class="text-lg font-semibold text-purple-600 mb-4">Latest</h2>
-        
+         -->
         <!-- Demo post/news -->
-        <div class="mb-6">
+        <!-- <div class="mb-6">
             <img src="/images/_.jpeg" alt="Football News 1" class="mb-4 rounded-lg shadow-md hover:shadow-xl transition duration-300">
             <h3 class="text-xl font-semibold mb-2">Cristiano Ronaldo Rumored to Return to Real Madrid</h3>
             <p class="text-gray-600">Speculations are rife about Cristiano Ronaldo's potential return to Real Madrid, sparking excitement among fans and former teammates.</p>
@@ -190,17 +201,27 @@
                     <span>Share</span>
                 </button>
             </div>
-        </div>
+        </div> -->
                     
         
 
-        <div class="mb-6">
+        <!-- <div class="mb-6">
             <img src="/images/vini.jpeg" alt="Football News 2" class="mb-4 rounded-lg shadow-md hover:shadow-xl transition duration-300">
             <h3 class="text-xl font-semibold mb-2">Real Madrid Wins Champions League</h3>
             <p class="text-gray-600">Sed euismod magna a lorem venenatis, vel bibendum purus finibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
         </div>
 
+    </div> -->
+
+   <!-- Main Content -->
+<div class="col-span-6 bg-white shadow-lg p-4 rounded-lg">
+    <h2 class="text-lg font-semibold text-purple-600 mb-4">Latest</h2>
+
+    <!-- Posts Container -->
+    <div id="postsContainer" class="mt-6 space-y-6">
+        <!-- Posts will be dynamically added here -->
     </div>
+</div>
 
     <!-- Sidebar R-->
     <div class="col-span-3 bg-white shadow-lg p-4 rounded-lg">
@@ -363,6 +384,7 @@
                 alert('An error occurred');
             }
         });
+
 </script>
 
 

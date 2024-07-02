@@ -103,4 +103,40 @@ router.get('/viewusers', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'viewUser.html'));
 });
 
+// Define the route to get user details by userId
+router.get('/users/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const user = await User.findOne({ userId });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json(user);
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+//delete the user
+router.delete('/users/:userId', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const user = await User.findOneAndDelete({ userId });
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.status(200).send('User deleted successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error deleting user');
+    }
+});
+
+
 module.exports = router;
