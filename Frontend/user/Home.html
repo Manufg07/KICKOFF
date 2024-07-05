@@ -43,40 +43,36 @@
             <!-- Connected Friends-->
             <div>
                 <h3 class="text-md font-semibold">Connected Friends</h3>
-                <div class="mb-2 flex items-center">
-                    <img src="/images/_.jpeg" alt="Friend 1" class="w-10 h-10 rounded-full mr-2">
-                    <span>Nawal</span>
+                <div id="connectedFriends">
+                    <!-- Connected friends will be dynamically added here -->
                 </div>
-                <div class="mb-2 flex items-center">
-                    <img src="https://via.placeholder.com/40" alt="Friend 2" class="w-10 h-10 rounded-full mr-2">
-                    <span>Robin</span>
-                </div>
+            
             </div>
 
 
-   <!-- Toggle Button -->
-   <h3 id="togglePostButton" class="text-md font-semibold cursor-pointer">Post Your Content</h3> 
+  <!-- Toggle Button -->
+  <h3 id="togglePostButton" class="text-md font-semibold cursor-pointer">Post Your Content</h3>
 
-   <!-- Content Posting Section -->
-    <div id="postSection" class="hidden mt-4">
-       <form id="postForm" class="space-y-4">
-           <div>
-               <label for="postText" class="block text-gray-700 font-medium">Text</label>
-               <textarea id="postText" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"></textarea>
-           </div>
-           <div>
-               <label for="postImage" class="block text-gray-700 font-medium">Image</label>
-               <input type="file" id="postImage" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" onchange="previewFile(event, 'imagePreview')">
-               <img id="imagePreview" class="mt-2 max-w-xs rounded-lg shadow-md" alt="Image Preview">
-           </div>
-           <div>
-               <label for="postVideo" class="block text-gray-700 font-medium">Video</label>
-               <input type="file" id="postVideo" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" onchange="previewFile(event, 'videoPreview')">
-               <video id="videoPreview" class="mt-2 max-w-xs rounded-lg shadow-md" controls></video>
-           </div>
-           <button type="submit" class="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition duration-300">Post</button>
-       </form>
-   </div> 
+  <!-- Content Posting Section -->
+  <div id="postSection" class="hidden mt-4">
+      <form id="postForm" enctype="multipart/form-data" class="space-y-4">
+          <div>
+              <label for="postText" class="block text-gray-700 font-medium">Text</label>
+              <textarea id="postText" name="text" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"></textarea>
+          </div>
+          <div>
+              <label for="postImage" class="block text-gray-700 font-medium">Image</label>
+              <input type="file" id="postImage" name="image" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" onchange="previewFile(event, 'imagePreview')">
+              <img id="imagePreview" class="mt-2 max-w-xs rounded-lg shadow-md" alt="Image Preview">
+          </div>
+          <div>
+              <label for="postVideo" class="block text-gray-700 font-medium">Video</label>
+              <input type="file" id="postVideo" name="video" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" onchange="previewFile(event, 'videoPreview')">
+              <video id="videoPreview" class="mt-2 max-w-xs rounded-lg shadow-md" controls></video>
+          </div>
+          <button type="submit" class="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition duration-300">Post</button>
+      </form>
+  </div>
    <!-- <button id="togglePostButton">Toggle Post Section</button>
 <section id="postSection" class="hidden">
     <form id="postForm">
@@ -125,26 +121,23 @@
             </div>
         </div>
 
-            <!-- Leagues -->
-            <div class="justify-center">
-                <h3 class="text-md font-semibold">Explore Leagues</h3>
-                <div class="mb-2 cursor-pointer" onclick="location.href='/leagues'">
-                    <img src="/images/foot.jpg" alt="League" class="w-10 h-10 rounded-full mr-2">
-                    <!-- <span>Champions League</span> -->
-                </div>
+        <!-- Leagues -->
+        <div class="justify-center">
+            <h3 class="text-md font-semibold">Explore Leagues</h3>
+            <div class="mb-2 cursor-pointer" onclick="location.href='/leagues'">
+                <img src="/images/foot.jpg" alt="League" class="w-10 h-10 rounded-full mr-2">
             </div>
+        </div>
 
           
 <!-- Add Update-->
 <div class="flex justify-center mb-8 ml-[-4]">
-    <button onclick="toggleUpdateSection()" class="bg-transparent text-md font-semibold  text-black py-2 px-2  rounded-md hover:border border-1 border-blue-600 focus:outline-none focus:bg-blue-600">
-        Update Your Information
-    </button>
+    <button id="toggleUpdateSection" class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">Toggle Update Section</button>
 </div>
 
 <div id="updateSection" class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-auto hidden border border-gray-300">
     <h2 class="text-2xl font-bold mb-6">Update Your Information</h2>
-    <form id="updateForm" action="/update-profile" method="POST">
+    <form id="updateForm" action="/user/update-profile" method="post">
         <div class="mb-4">
             <label for="username" class="block text-gray-700">Username</label>
             <input type="text" id="username" name="username" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black" required>
@@ -215,11 +208,11 @@
     </div> -->
 
    <!-- Main Content -->
-<div class="col-span-6 bg-white shadow-lg p-4 rounded-lg">
+   <div class="col-span-6 bg-white shadow-lg p-4 rounded-lg mt-8">
     <h2 class="text-lg font-semibold text-purple-600 mb-4">Latest</h2>
 
     <!-- Posts Container -->
-    <div id="postsContainer" class="mt-6 space-y-6">
+    <div id="posts" class="mt-6 space-y-6">
         <!-- Posts will be dynamically added here -->
     </div>
 </div>
@@ -228,29 +221,9 @@
     <div class="col-span-3 bg-white shadow-lg p-4 rounded-lg">
         <h2 class="text-lg font-semibold text-purple-600 mb-4">Friends</h2>
         
-        <div class="mb-2 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="https://via.placeholder.com/40" alt="Friend 3" class="w-10 h-10 rounded-full mr-2">
-                <span><a href="friend_view.html">Das</a></span>
-            </div>
-            <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition duration-300">Connect</button>
+        <div id="friendSuggestions">
+            <!-- Friend suggestions will be dynamically added here -->
         </div>
-
-        <div class="mb-2 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="https://via.placeholder.com/40" alt="Friend 4" class="w-10 h-10 rounded-full mr-2">
-                <span>Aswin</span>
-            </div>
-            <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition duration-300">Connect</button>
-        </div>
-        <div class="mb-2 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="https://via.placeholder.com/40" alt="Friend 5" class="w-10 h-10 rounded-full mr-2">
-                <span>Makku</span>
-            </div>
-            <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition duration-300">Connect</button>
-        </div>
-
         <!-- Recent Matches -->
         <div>
             <h3 class="text-md font-semibold">Recent Matches</h3>
@@ -340,51 +313,164 @@
     </div>
 </div>
 <script>
-     function toggleUpdate() {
-            const updateForm = document.getElementById('updateForm');
-            updateForm.style.display = updateForm.style.display === 'none' ? 'block' : 'none';
-            
-            if (updateForm.style.display === 'block') {
-                // Prefill the form with user details
-                document.getElementById('username').value = '{{username}}';
-                document.getElementById('email').value = '{{email}}';
-                document.getElementById('phone').value = '{{phone}}';
-                document.getElementById('fav_team1').value = '{{fav_team1}}';
-                document.getElementById('fav_player').value = '{{fav_player}}';
+     document.getElementById('toggleUpdateSection').addEventListener('click', async () => {
+            const updateSection = document.getElementById('updateSection');
+            if (updateSection.classList.contains('hidden')) {
+                try {
+                    const response = await fetch('/user/get-user-details');
+                    const data = await response.json();
+                    console.log('User details fetched:', data);
+
+                    if (response.ok) {
+                        document.getElementById('username').value = data.username;
+                        document.getElementById('email').value = data.email;
+                        document.getElementById('phone').value = data.phone;
+                        document.getElementById('fav_team1').value = data.fav_team1;
+                        document.getElementById('fav_player').value = data.fav_player;
+                    } else {
+                        console.error('Error fetching user details:', data.error);
+                    }
+                } catch (error) {
+                    console.error('Error fetching user details:', error);
+                }
+
+                updateSection.classList.remove('hidden');
+            } else {
+                updateSection.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('togglePostButton').addEventListener('click', () => {
+            const postSection = document.getElementById('postSection');
+            postSection.classList.toggle('hidden');
+        });
+
+        document.getElementById('postForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            try {
+                const response = await fetch('/post/post', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    alert(data.message);
+                    fetchPosts();
+                } else {
+                    alert(data.error);
+                }
+            } catch (error) {
+                console.error('Error posting content:', error);
+            }
+        });
+
+        async function fetchPosts() {
+            try {
+                const response = await fetch('/post/posts');
+                const posts = await response.json();
+                const postsContainer = document.getElementById('posts');
+                postsContainer.innerHTML = '';
+                posts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.className = 'p-4 bg-white shadow-md rounded-lg';
+                    postElement.innerHTML = `
+                        <h3 class="text-md font-semibold">${post.userId.username}</h3>
+                        <p>${post.text}</p>
+                        ${post.imageUrl ? `<img src="/${post.imageUrl}" class="mt-2 max-w-xs rounded-lg shadow-md" alt="Post Image">` : ''}
+                        ${post.videoUrl ? `<video src="/${post.videoUrl}" class="mt-2 max-w-xs rounded-lg shadow-md" controls></video>` : ''}
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            } catch (error) {
+                console.error('Error fetching posts:', error);
             }
         }
 
-        document.getElementById('updateProfileForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const data = {
-                username: formData.get('username'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
-                fav_team1: formData.get('fav_team1'),
-                fav_player: formData.get('fav_player')
+        function previewFile(event, previewId) {
+            const previewElement = document.getElementById(previewId);
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewElement.src = e.target.result;
             };
+            reader.readAsDataURL(file);
+        }
 
-            try {
-                const response = await fetch('/update-profile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
+        // Fetch posts on page load
+        fetchPosts();
 
-                if (response.ok) {
-                    alert('Profile updated successfully');
-                    location.reload();
-                } else {
-                    alert('Failed to update profile');
-                }
-            } catch (error) {
-                alert('An error occurred');
-            }
+        //suggestions
+        async function fetchConnectedFriends() {
+    try {
+        const response = await fetch('/api/connected-friends');
+        if (!response.ok) {
+            throw new Error('Failed to fetch connected friends');
+        }
+        const friends = await response.json();
+
+        const connectedFriendsDiv = document.getElementById('connectedFriends');
+        friends.forEach(friend => {
+            const friendDiv = document.createElement('div');
+            friendDiv.textContent = friend.username;
+            connectedFriendsDiv.appendChild(friendDiv);
         });
+    } catch (error) {
+        console.error('Error fetching or displaying connected friends:', error);
+    }
+}
+
+async function fetchFriendSuggestions() {
+    try {
+        const response = await fetch('/api/friend-suggestions');
+        if (!response.ok) {
+            throw new Error('Failed to fetch friend suggestions');
+        }
+        const suggestions = await response.json();
+
+        const friendSuggestionsDiv = document.getElementById('friendSuggestions');
+        suggestions.forEach(suggestion => {
+            const suggestionElement = document.createElement('div');
+            suggestionElement.innerHTML = `
+                <div>
+                    <img src="${suggestion.profilePicture}" alt="${suggestion.username}" class="profile-picture">
+                    <span>${suggestion.username}</span>
+                    <button onclick="connectFriend('${suggestion._id}')">Connect</button>
+                </div>
+            `;
+            friendSuggestionsDiv.appendChild(suggestionElement);
+        });
+    } catch (error) {
+        console.error('Error fetching or displaying friend suggestions:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchConnectedFriends();
+    fetchFriendSuggestions();
+});
+
+async function connectFriend(userId) {
+    try {
+        const response = await fetch(`/api/connect-friend/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId })
+        });
+        if (!response.ok) {
+            throw new Error('Failed to connect/add friend');
+        }
+        // Handle success
+    } catch (error) {
+        console.error('Error connecting/add friend:', error);
+        // Handle error
+    }
+}
 
 </script>
 
