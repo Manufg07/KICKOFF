@@ -38,9 +38,12 @@ const userSchema = new Schema({
         type: String,
         required: false,
         trim: true,
-    }
-}, {
-    timestamps: true,
+    },    
+    profilePicture: { type: String },
+    friendsCount: { type: Number, default: 0 }
+    },
+    {
+        timestamps: true,
 });
 
 const User = mongoose.model('User', userSchema);

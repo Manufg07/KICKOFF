@@ -425,21 +425,25 @@
 
 async function fetchFriendSuggestions() {
     try {
-        const response = await fetch('/api/friend-suggestions');
+        const response = await fetch('/api/friend-suggestions', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch friend suggestions');
         }
         const suggestions = await response.json();
 
         const friendSuggestionsDiv = document.getElementById('friendSuggestions');
+        friendSuggestionsDiv.innerHTML = ''; // Clear any existing suggestions
         suggestions.forEach(suggestion => {
             const suggestionElement = document.createElement('div');
+            suggestionElement.classList.add('flex', 'items-center', 'mb-2');
             suggestionElement.innerHTML = `
-                <div>
-                    <img src="${suggestion.profilePicture}" alt="${suggestion.username}" class="profile-picture">
-                    <span>${suggestion.username}</span>
-                    <button onclick="connectFriend('${suggestion._id}')">Connect</button>
-                </div>
+                <img src="${suggestion.profilePicture || 'https://via.placeholder.com/40'}" alt="${suggestion.username}" class="w-10 h-10 rounded-full mr-2">
+                <span>${suggestion.username}</span>
+                <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition duration-300 ml-auto" onclick="connectFriend('${suggestion._id}')">Connect</button>
             `;
             friendSuggestionsDiv.appendChild(suggestionElement);
         });
@@ -449,29 +453,13 @@ async function fetchFriendSuggestions() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchConnectedFriends();
     fetchFriendSuggestions();
 });
 
-async function connectFriend(userId) {
-    try {
-        const response = await fetch(`/api/connect-friend/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userId })
-        });
-        if (!response.ok) {
-            throw new Error('Failed to connect/add friend');
-        }
-        // Handle success
-    } catch (error) {
-        console.error('Error connecting/add friend:', error);
-        // Handle error
-    }
+function connectFriend(friendId) {
+    // Implement the logic to send a friend request or connect with the friend
+    console.log(`Connect with friend ID: ${friendId}`);
 }
-
 </script>
 
 

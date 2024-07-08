@@ -17,7 +17,9 @@ const jwt = require('jsonwebtoken');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
+const adminRoutes = require('./routes/admin'); 
 const verifyToken = require('./middleware/authMiddleware');
+const verifyAdminToken = require('./middleware/verifyAdminToken'); 
 const cookieParser = require('cookie-parser');
 const fs = require('fs');
 // const verifyToken = require('../middleware/authMiddleware')
@@ -82,6 +84,7 @@ app.use(cookieParser());
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/post', postRoutes);
+app.use('/admin', adminRoutes);
 
 // Use the routes defined in routes/index.js
 app.use('/api', require('./routes/post'));

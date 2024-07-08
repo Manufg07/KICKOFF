@@ -21,7 +21,7 @@
                     <i class="fas fa-users"></i>
                 </button>
                 <ul id="userManagement" class="submenu hidden ml-4 mt-2 space-y-2">
-                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="/viewusers">View Users</a></li>
+                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="/admin/viewusers">View Users</a></li>
                 </ul>
             </li>
             <li>
@@ -29,7 +29,7 @@
                     <i class="fas fa-file-alt"></i>
                 </button>
                 <ul id="contentManagement" class="submenu hidden ml-4 mt-2 space-y-2">
-                    <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Posts</a></li>
+                    <li><a href="/viewPost" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Posts</a></li>
                     <li><a href="#" class="block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300">Manage Comments</a></li>
                 </ul>
             </li>
@@ -38,8 +38,8 @@
                     <i class="fas fa-chart-line"></i>
                 </button>
                 <ul id="analytics" class="submenu hidden ml-4 mt-2 space-y-2">
-                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="grapgh.html">User Engagement</a></li>
-                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="content.html">Content Performance</a></li>
+                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="/admin/graph.html">User Engagement</a></li>
+                    <li><a href="#" class="load-content block px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300" data-file="/admin/content.html">Content Performance</a></li>
                 </ul>
             </li>
         </ul>
@@ -134,12 +134,18 @@
 
     // Fetch total users
     fetch('/admin/totalUsers')
-        .then(response => response.json())
+        .then(response => {
+            console.log('Fetch total users response status:', response.status); // Debugging log
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log('Received total users data:', data); // Debugging log
             document.getElementById('totalUsers').innerText = data.totalUsers;
         })
         .catch(error => console.error('Error fetching total users:', error));
 </script>
-
 </body>
 </html>

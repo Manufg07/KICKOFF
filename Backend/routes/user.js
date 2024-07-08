@@ -89,6 +89,9 @@ router.get('/users', verifyToken, async (req, res) => {
 router.get('/connected-friends', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.user._id).populate('friends');
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
         res.json(user.friends);
     } catch (error) {
         console.error('Error fetching connected friends:', error);
@@ -96,13 +99,18 @@ router.get('/connected-friends', verifyToken, async (req, res) => {
     }
 });
 
-// Get friend suggestions
-router.get('/friend-suggestions', verifyToken, async (req, res) => {
-    try {
-        const user = await User.findById(req.user._id);
-        const friends = user.friends.map(friend => friend.toString());
-        friends.push(req.user._id.toString());
 
+// API endpoint to fetch friend suggestions
+router.get('/api/friend-suggestions', verifyToken, async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        // Fetch the current user's friends to exclude them from suggestions
+        const user = await User.findById(userId);
+        const friends = user.friends.map(friend => friend.toString());
+        friends.push(userId.toString());
+
+        // Find users who are not friends with the current user
         const suggestions = await User.find({ _id: { $nin: friends } }).limit(10);
         res.json(suggestions);
     } catch (error) {
@@ -110,5 +118,6 @@ router.get('/friend-suggestions', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch friend suggestions' });
     }
 });
+
 
 module.exports = router;
