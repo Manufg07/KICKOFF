@@ -104,6 +104,17 @@ router.get('/totalUsers', verifyAdminToken, async (req, res) => {
     }
 });
 
+// Get total posts (protected route)
+router.get('/totalPosts', verifyAdminToken, async (req, res) => {
+    try {
+        const totalPosts = await Post.countDocuments({});
+        res.json({ totalPosts });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching total posts');
+    }
+});
+
 // Get all users (protected route)
 router.get('/users', verifyAdminToken, async (req, res) => {
     try {
@@ -120,9 +131,6 @@ router.get('/viewusers', verifyAdminToken, (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'viewUser.html'));
 });
 
-router.get('/viewpost', verifyAdminToken, (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'viewPost.html'));
-});
 
 
 // Delete user by userId (protected route)
@@ -143,11 +151,23 @@ router.delete('/users/:userId', verifyAdminToken, async (req, res) => {
     }
 });
 
-// Get user details by userId (protected route)
-// Get user details by userId (protected route)
-router.get('/users/:userId', verifyAdminToken, async (req, res) => {
+// Example to log user IDs (for debugging purposes)
+router.get('/api/users', verifyAdminToken, async (req, res) => {
+    try {
+        const users = await User.find({}, 'userId');
+        console.log(users); // Log all user IDs
+        res.json(users);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching users');
+    }
+});
+
+//userdetails
+router.get('/api/users/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;
+        console.log(`Fetching details for userId: ${userId}`); // Log to confirm endpoint hit
         const user = await User.findOne({ userId });
 
         if (!user) {
@@ -163,10 +183,15 @@ router.get('/users/:userId', verifyAdminToken, async (req, res) => {
     }
 });
 
-// Get all posts (protected route)
-router.get('/admin/posts', verifyAdminToken, async (req, res) => {
+// Route to serve the HTML page
+router.get('/posts', verifyAdminToken, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'admin', 'viewPost.html'));
+});
+
+// API endpoint to get all posts
+router.get('/api/posts', verifyAdminToken, async (req, res) => {
     try {
-        const posts = await Post.find();
+        const posts = await Post.find({});
         res.json(posts);
     } catch (error) {
         console.error('Error fetching posts:', error);
@@ -174,23 +199,8 @@ router.get('/admin/posts', verifyAdminToken, async (req, res) => {
     }
 });
 
-// Get post details by ID (protected route)
-router.get('/admin/posts/:postId', verifyAdminToken, async (req, res) => {
-    try {
-        const postId = req.params.postId;
-        const post = await Post.findById(postId);
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-        }
-        res.json(post);
-    } catch (error) {
-        console.error('Error fetching post details:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
-// Delete a post by ID (protected route)
-router.delete('/admin/posts/:postId', verifyAdminToken, async (req, res) => {
+// API endpoint to delete a post by ID
+router.delete('/api/posts/:postId', verifyAdminToken, async (req, res) => {
     try {
         const postId = req.params.postId;
         const deletedPost = await Post.findByIdAndDelete(postId);

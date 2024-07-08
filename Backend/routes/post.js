@@ -5,8 +5,11 @@ const Post = require('../Models/Post');
 const User = require('../Models/UserDetails');
 const verifyToken = require('../middleware/authMiddleware');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 const router = express.Router();
+
+
 
 dotenv.config();
 // Middleware to serve static files
@@ -22,7 +25,10 @@ const storage = multer.diskStorage({
     }
 });
 
+
+
 const upload = multer({ storage: storage });
+app.use(cors());
 
 router.post('/post', verifyToken, upload.fields([{ name: 'image' }, { name: 'video' }]), async (req, res) => {
     try {
@@ -52,6 +58,71 @@ router.get('/posts', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch posts' });
     }
 });
+
+//like
+router.post('/like/:postId', verifyToken, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.postId);
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        const userId = req.user.id;
+        if (post.likes.includes(userId)) {
+            post.likes = post.likes.filter(like => like.toString() !== userId);
+        } else {
+            post.likes.push(userId);
+        }
+
+        await post.save();
+        res.json(post);
+    } catch (error) {
+        res.status(500).json({ error: 'Error liking post' });
+    }
+});
+
+//comment
+// Add comment to post
+router.post('/post/comment/:postId', verifyToken, async (req, res) => {
+    try {
+        const { text } = req.body;
+        const { postId } = req.params;
+        const post = await Post.findById(postId);
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+        const newComment = {
+            userId: req.user.userId,
+            text
+        };
+        post.comments.push(newComment);
+        await post.save();
+        res.json({ message: 'Comment added successfully', comment: newComment });
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        res.status(500).json({ error: 'Failed to add comment' });
+    }
+});
+
+
+//share
+router.post('/share/:postId', verifyToken, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.postId);
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        post.shares += 1;
+        await post.save();
+        res.json(post);
+    } catch (error) {
+        res.status(500).json({ error: 'Error sharing post' });
+    }
+});
+
+
+
 
 router.get('/leagues', (req, res) => {
     const filePath = path.join(__dirname, '../../Frontend/user/league.html');

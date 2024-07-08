@@ -59,7 +59,7 @@
             const userId = urlParams.get('userId');
             
             if (userId) {
-                fetch(`/users/${userId}`)
+                fetch(`http://localhost:5000/api/users/${userId}`)  // Ensure the URL is correct
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
@@ -72,11 +72,10 @@
 
                         document.getElementById('username').textContent = user.username;
                         document.getElementById('email').textContent = user.email;
-                        document.getElementById('fav_team1').textContent = user.fav_team1;
-                        document.getElementById('fav_team2').textContent = user.fav_team2;
-                        document.getElementById('fav_player').textContent = user.fav_player;
+                        document.getElementById('fav_team1').textContent = user.fav_team1 || 'N/A';
+                        document.getElementById('fav_player').textContent = user.fav_player || 'N/A';
                         document.getElementById('postsCount').textContent = postCount;
-                        document.getElementById('friendsCount').textContent = user.friendsCount;
+                        document.getElementById('friendsCount').textContent = user.friendsCount || 'N/A';
                         document.getElementById('profilePicture').src = user.profilePicture || '/images/default-profile.png';
                     })
                     .catch(error => {

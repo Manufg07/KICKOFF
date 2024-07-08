@@ -86,6 +86,9 @@ app.use('/user', userRoutes);
 app.use('/post', postRoutes);
 app.use('/admin', adminRoutes);
 
+// Use routes
+app.use('/admin', postRoutes);
+
 // Use the routes defined in routes/index.js
 app.use('/api', require('./routes/post'));
 app.use('/api', userRoutes);
@@ -152,7 +155,7 @@ app.use('/api', userRoutes);
 
 // x-rapidapi-key': 'ae9cd53d1c2f4aa4b62f942b8c1e9318
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

@@ -220,7 +220,6 @@
     <!-- Sidebar R-->
     <div class="col-span-3 bg-white shadow-lg p-4 rounded-lg">
         <h2 class="text-lg font-semibold text-purple-600 mb-4">Friends</h2>
-        
         <div id="friendSuggestions">
             <!-- Friend suggestions will be dynamically added here -->
         </div>
@@ -340,96 +339,167 @@
             }
         });
 
-        document.getElementById('togglePostButton').addEventListener('click', () => {
-            const postSection = document.getElementById('postSection');
-            postSection.classList.toggle('hidden');
-        });
+//post section
 
-        document.getElementById('postForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            try {
-                const response = await fetch('/post/post', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    alert(data.message);
-                    fetchPosts();
-                } else {
-                    alert(data.error);
-                }
-            } catch (error) {
-                console.error('Error posting content:', error);
-            }
-        });
-
-        async function fetchPosts() {
-            try {
-                const response = await fetch('/post/posts');
-                const posts = await response.json();
-                const postsContainer = document.getElementById('posts');
-                postsContainer.innerHTML = '';
-                posts.forEach(post => {
-                    const postElement = document.createElement('div');
-                    postElement.className = 'p-4 bg-white shadow-md rounded-lg';
-                    postElement.innerHTML = `
-                        <h3 class="text-md font-semibold">${post.userId.username}</h3>
-                        <p>${post.text}</p>
-                        ${post.imageUrl ? `<img src="/${post.imageUrl}" class="mt-2 max-w-xs rounded-lg shadow-md" alt="Post Image">` : ''}
-                        ${post.videoUrl ? `<video src="/${post.videoUrl}" class="mt-2 max-w-xs rounded-lg shadow-md" controls></video>` : ''}
-                    `;
-                    postsContainer.appendChild(postElement);
-                });
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-            }
-        }
-
-        function previewFile(event, previewId) {
-            const previewElement = document.getElementById(previewId);
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewElement.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Fetch posts on page load
-        fetchPosts();
-
-        //suggestions
-        async function fetchConnectedFriends() {
+async function fetchPosts() {
     try {
-        const response = await fetch('/api/connected-friends');
-        if (!response.ok) {
-            throw new Error('Failed to fetch connected friends');
-        }
-        const friends = await response.json();
+        const response = await fetch('/post/posts');
+        const posts = await response.json();
+        const postsContainer = document.getElementById('posts');
+        postsContainer.innerHTML = '';
+        posts.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.className = 'p-4 bg-white shadow-md rounded-lg';
 
-        const connectedFriendsDiv = document.getElementById('connectedFriends');
-        friends.forEach(friend => {
-            const friendDiv = document.createElement('div');
-            friendDiv.textContent = friend.username;
-            connectedFriendsDiv.appendChild(friendDiv);
+            postElement.innerHTML = `
+                <div class="flex items-center mb-2">
+                    <img src="https://via.placeholder.com/40" alt="User Image" class="w-10 h-10 rounded-full mr-3">
+                    <span class="font-semibold">${post.userId.username}</span>
+                </div>
+                <div class="mb-2">
+                    <p>${post.text}</p>
+                    ${post.imageUrl ? `<img src="/${post.imageUrl}" alt="Post Image" class="mt-2 max-w-xs rounded-lg shadow-md">` : ''}
+                    ${post.videoUrl ? `<video src="/${post.videoUrl}" class="mt-2 max-w-xs rounded-lg shadow-md" controls></video>` : ''}
+                </div>
+                <div class="flex justify-between items-center mb-2">
+                    <button onclick="likePost('${post._id}')" class="text-sm text-gray-600 hover:text-gray-900 focus:outline-none flex items-center">
+                        <i class="far fa-thumbs-up mr-1"></i>
+                        <span>Like (${post.likes.length})</span>
+                    </button>
+                    <button onclick="toggleComment('${post._id}')" class="text-sm text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <i class="far fa-comment mr-1"></i>
+                        <span>Comment</span>
+                    </button>
+                    <button onclick="sharePost('${post._id}')" class="text-sm text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <i class="fas fa-share mr-1"></i>
+                        <span>Share (${post.shares})</span>
+                    </button>
+                </div>
+                <div id="comments-${post._id}" class="hidden space-y-2">
+                    ${post.comments.length > 0 ? `
+                        <span class="text-sm font-semibold">Comments:</span>
+                        ${post.comments.map(comment => `
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/40" alt="User Image" class="w-8 h-8 rounded-full mr-2">
+                                <div>
+                                    <p class="text-sm font-semibold">${comment.userId.username}</p>
+                                    <p class="text-sm">${comment.text}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    ` : '<p class="text-sm text-gray-500">No comments yet.</p>'}
+                    <form id="commentForm-${post._id}" class="hidden mt-2" onsubmit="submitComment(event, '${post._id}')">
+                        <textarea id="commentText-${post._id}" class="w-full p-2 border rounded-lg"></textarea>
+                        <button type="submit" class="mt-2 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 focus:outline-none">
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            `;
+            postsContainer.appendChild(postElement);
         });
     } catch (error) {
-        console.error('Error fetching or displaying connected friends:', error);
+        console.error('Error fetching posts:', error);
     }
 }
 
-async function fetchFriendSuggestions() {
+async function submitComment(event, postId) {
+    event.preventDefault();
+    const commentText = document.getElementById(`commentText-${postId}`).value;
     try {
-        const response = await fetch('/api/friend-suggestions', {
+        const response = await fetch(`/post/comment/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ text: commentText })
+        });
+        const data = await response.json();
+        if (response.ok) {
+            alert(data.message);
+            fetchPosts(); // Refresh posts after adding comment
+        } else {
+            alert(data.error);
+        }
+    } catch (error) {
+        console.error('Error adding comment:', error);
+    }
+}
+
+function toggleComment(postId) {
+    const commentsSection = document.getElementById(`comments-${postId}`);
+    commentsSection.classList.toggle('hidden');
+
+    const commentForm = document.getElementById(`commentForm-${postId}`);
+    commentForm.classList.toggle('hidden');
+}
+
+async function likePost(postId) {
+    try {
+        const response = await fetch(`/post/like/${postId}`, {
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
+        const data = await response.json();
+        fetchPosts();
+    } catch (error) {
+        console.error('Error liking post:', error);
+    }
+}
+
+function showCommentBox(postId) {
+    const commentBox = document.getElementById(`commentBox-${postId}`);
+    commentBox.classList.toggle('hidden');
+}
+
+async function submitComment(event, postId) {
+    event.preventDefault();
+    const commentText = document.getElementById(`commentText-${postId}`).value;
+    try {
+        const response = await fetch(`/post/comment/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ text: commentText })
+        });
+        const data = await response.json();
+        if (response.ok) {
+            alert(data.message);
+            fetchPosts(); // Refresh posts after adding comment
+        } else {
+            alert(data.error);
+        }
+    } catch (error) {
+        console.error('Error adding comment:', error);
+    }
+}
+async function sharePost(postId) {
+    try {
+        const response = await fetch(`/post/share/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        const data = await response.json();
+        fetchPosts();
+    } catch (error) {
+        console.error('Error sharing post:', error);
+    }
+}
+
+// Fetch posts on page load
+fetchPosts();
+
+        //suggestions
+        async function fetchFriendSuggestions(userId) {
+    try {
+        const response = await fetch(`/api/friend-suggestions?userId=${userId}`);
         if (!response.ok) {
             throw new Error('Failed to fetch friend suggestions');
         }
@@ -453,13 +523,9 @@ async function fetchFriendSuggestions() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchFriendSuggestions();
+    const userId = 'someUserId'; // Replace with the actual user ID
+    fetchFriendSuggestions(userId);
 });
-
-function connectFriend(friendId) {
-    // Implement the logic to send a friend request or connect with the friend
-    console.log(`Connect with friend ID: ${friendId}`);
-}
 </script>
 
 
