@@ -82,30 +82,27 @@ router.post('/like/:postId', verifyToken, async (req, res) => {
 });
 
 //comment
-// Add comment to post
-router.post('/post/comment/:postId', verifyToken, async (req, res) => {
+router.post('/comment/:postId', verifyToken, async (req, res) => {
     try {
-        const { text } = req.body;
-        const { postId } = req.params;
-        const post = await Post.findById(postId);
+        const post = await Post.findById(req.params.postId);
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
         }
-        const newComment = {
-            userId: req.user.userId,
-            text
+
+        const comment = {
+            userId: req.user.id,
+            text: req.body.text,
         };
-        post.comments.push(newComment);
+
+        post.comments.push(comment);
         await post.save();
-        res.json({ message: 'Comment added successfully', comment: newComment });
+        res.json(post);
     } catch (error) {
-        console.error('Error adding comment:', error);
-        res.status(500).json({ error: 'Failed to add comment' });
+        res.status(500).json({ error: 'Error commenting on post' });
     }
 });
 
-
-//share
+// //share
 router.post('/share/:postId', verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.postId);
@@ -120,6 +117,7 @@ router.post('/share/:postId', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Error sharing post' });
     }
 });
+
 
 
 

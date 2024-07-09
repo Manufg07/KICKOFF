@@ -2,10 +2,10 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const Admin = require('../Models/AdminDetails'); // Ensure you have this model
+const Admin = require('../Models/AdminDetails'); 
 const Post = require('../Models/Post');
 const User = require('../Models/UserDetails');
-const verifyAdminToken = require('../middleware/verifyAdminToken'); // New middleware for admin authentication
+const verifyAdminToken = require('../middleware/verifyAdminToken'); 
 const router = express.Router();
 
 // Admin registration
